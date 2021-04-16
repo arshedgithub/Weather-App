@@ -1,18 +1,16 @@
 const cityForm = document.querySelector('form');
 
 const updateCity = async (city) => {
-    const cityDets = await getCity(city);
-    const weather = await getCity(cityDets.Key);
 
-    return {
-        cityDets: cityDets,
-        weather: weather
-    };
+    const cityDetail = getCity(city);
+    const weather = getWeather(cityDetail.Key);
+
+    return { cityDetail, weather };
 };
 
 cityForm.addEventListener('submit', e => {
     // prevent refreshing the page
-    e.preventDefault;
+    e.preventDefault();
 
     // get city
     const city = cityForm.city.value.trim();
