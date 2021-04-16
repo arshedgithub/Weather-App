@@ -7,7 +7,6 @@ const icon = document.querySelector('.icon img');
 const updateUI = data => {
     // destructure properties
     const { cityDetail, weather } = data;
-    console.log(data);
 
     // update details template
     details.innerHTML = `
@@ -29,12 +28,7 @@ const updateUI = data => {
     icon.setAttribute('src', iconSrc);
 
     // update day/night image 
-    timeSrc = null;
-    if (weather.IsDayTime) {
-        timeSrc = 'img/day.svg';
-    } else {
-        timeSrc = 'img/night.svg';
-    }
+    let timeSrc = weather.IsDayTime ? 'img/day.svg' : 'img/night.svg';
     time.setAttribute('src', timeSrc);
 
 }
@@ -59,5 +53,14 @@ cityForm.addEventListener('submit', e => {
     updateCity(city)
         .then(data => updateUI(data))
         .catch(err => console.log(err));
+    
+    // set local storage
+    localStorage.setItem('city', city);
 
 });
+
+if (localStorage.getItem('city')) {
+    updateCity(localStorage.getItem('city'))
+        .then(data => updateUI(data))
+        .catch(err => console.log(err));
+}
